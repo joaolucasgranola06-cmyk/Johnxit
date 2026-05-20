@@ -5,9 +5,14 @@
   "main": "main.js",
   "scripts": {
     "start": "node protection.js main.js main-obfuscated.js",
-    "serve": "node server.js"
+    "serve": "node server.js",
+    "build:maps": "npx terser dashboard.js --source-map \"content=inline,url=dashboard.min.js.map\" -o dashboard.min.js && npx terser main.js --source-map \"content=inline,url=main.min.js.map\" -o main.min.js",
+    "make:release": "bash scripts/make_release.sh"
   },
   "dependencies": {
     "javascript-obfuscator": "^4.0.0"
+  },
+  "devDependencies": {
+    "terser": "^5.20.0"
   }
 }
