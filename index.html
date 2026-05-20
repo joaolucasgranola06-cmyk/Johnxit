@@ -3,70 +3,144 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JohnXit - Aimbot Web</title>
+  <title>JohnXit - Xit via IP</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #111;
-      color: #f5f5f5;
+      background: #080a0f;
+      color: #f1f1f1;
       margin: 0;
       padding: 20px;
     }
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
+      background: #11151f;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
     }
     h1 {
       color: #4caf50;
+      margin-bottom: 8px;
     }
-    pre {
-      background: #222;
+    h2 {
+      color: #9ca3af;
+      margin-top: 24px;
+    }
+    p {
+      line-height: 1.7;
+      color: #d1d5db;
+    }
+    .card {
+      background: #161b26;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    .code-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
       padding: 16px;
-      border-radius: 8px;
       overflow-x: auto;
+      color: #f8fafc;
     }
     button {
       background: #4caf50;
       color: #fff;
       border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
+      padding: 12px 20px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 1rem;
+      margin-right: 12px;
     }
     button:hover {
       background: #43a047;
+    }
+    .status {
+      margin-top: 14px;
+      font-weight: 600;
+    }
+    .status-ok {
+      color: #34d399;
+    }
+    .status-error {
+      color: #f87171;
+    }
+    .url-box {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .url-box input {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #f8fafc;
+      padding: 10px 14px;
+      width: 100%;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>JohnXit</h1>
-    <p>Este site serve para carregar o código JavaScript do aimbot via browser e permitir uso por IP.</p>
-    <p>Abra esta página no dispositivo ou navegador que irá acessar o script:</p>
-    <pre>http://<span id="host-ip">localhost</span>:8080</pre>
-    <p>Use o menu do navegador para abrir o console e execute:</p>
-    <pre>AndroidAimbotBridge.startAimbot()</pre>
-    <p>Botão útil para testar se a ponte está disponível:</p>
-    <button id="checkBridge">Verificar AndroidAimbotBridge</button>
-    <p id="bridgeStatus">Status: aguardando...</p>
-    <h2>Arquivos disponíveis</h2>
-    <ul>
-      <li><a href="main.js" target="_blank">main.js</a></li>
-      <li><a href="protection.js" target="_blank">protection.js</a></li>
-      <li><a href="script_frida.js" target="_blank">script_frida.js</a></li>
-    </ul>
+    <h1>JohnXit - Xit via IP</h1>
+    <p>Este site foi criado para carregar o xit diretamente no navegador usando seu IP.</p>
+
+    <div class="card">
+      <h2>Passos</h2>
+      <ol>
+        <li>Execute o servidor: <code>npm run serve</code></li>
+        <li>Abra o navegador no dispositivo ou em outro aparelho da mesma rede</li>
+        <li>Use o endereço abaixo para acessar o site</li>
+        <li>Toque em <strong>START Xit</strong> para ativar o aimbot</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>Endereço de acesso</h2>
+      <div class="url-box">
+        <input id="hostInfo" readonly>
+        <button id="copyUrl">Copiar URL</button>
+      </div>
+      <p>Cole este endereço no navegador do dispositivo que vai usar o xit.</p>
+    </div>
+
+    <div class="card">
+      <h2>Controle do Xit</h2>
+      <button id="startAimbot">START Xit</button>
+      <button id="stopAimbot">STOP Xit</button>
+      <button id="refreshStatus">Verificar ponte</button>
+      <p id="bridgeStatus" class="status">Status: aguardando...</p>
+    </div>
+
+    <div class="card">
+      <h2>Comandos de console</h2>
+      <div class="code-box">
+        <code>AndroidAimbotBridge.startAimbot()</code>
+      </div>
+      <div class="code-box">
+        <code>AndroidAimbotBridge.stopAimbot()</code>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Arquivos do xit</h2>
+      <ul>
+        <li><a href="main.js" target="_blank">main.js</a></li>
+        <li><a href="protection.js" target="_blank">protection.js</a></li>
+        <li><a href="script_frida.js" target="_blank">script_frida.js</a></li>
+      </ul>
+    </div>
   </div>
+
   <script src="main.js"></script>
-  <script>
-    const status = document.getElementById('bridgeStatus');
-    document.getElementById('checkBridge').addEventListener('click', () => {
-      if (window.AndroidAimbotBridge) {
-        status.textContent = 'Status: AndroidAimbotBridge disponível';
-      } else {
-        status.textContent = 'Status: AndroidAimbotBridge NÃO encontrado';
-      }
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

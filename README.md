@@ -34,7 +34,11 @@ Abra no navegador do dispositivo ou em outro aparelho na mesma rede:
 http://<IP_DO_DISPOSITIVO>:8080
 ```
 
-No console do navegador, use:
+A página principal já inclui o xit e botões para ativar ou desativar o aimbot.
+
+- Use `START Xit` para iniciar.
+- Use `STOP Xit` para parar.
+- Se quiser, abra o console e execute:
 
 ```js
 AndroidAimbotBridge.startAimbot()
