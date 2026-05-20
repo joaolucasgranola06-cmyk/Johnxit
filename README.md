@@ -1,47 +1,61 @@
-# johnxit
+# Painel Profissional — Debug por Wi‑Fi
 
-## Pré-requisitos para usar via Web / JavaScript
+Interface moderna para demonstração e venda. Gera comandos ADB para conectar dispositivos Android por Wi‑Fi e inclui um painel responsivo pronto para personalização.
 
-Antes de executar ou testar via web, certifique-se de que o dispositivo Android tenha:
+## Conteúdo do repositório
+- `index.html` — layout do painel
+- `styles.css` — estilos modernos e responsivos
+- `dashboard.js` — lógica do gerador de comandos ADB
+- `server.js` — servidor estático e endpoint `/ips`
 
-- Ativado as "Opções de Desenvolvedor"
-- Ativado a "Depuração USB"
-- Permitido a instalação de aplicativos de fontes desconhecidas
+> Observação: este repositório contém código de exemplo. Use de forma responsável e não compartilhe acesso de depuração com terceiros.
 
-Esses passos são necessários para permitir a instalação e depuração local de apps durante o desenvolvimento.
+## Requisitos
+- Node.js (>=14)
+- ADB (Android Debug Bridge) instalado no host para conectar dispositivos Android
 
-## Execução via rede
-
-O código JavaScript também pode ser executado usando uma conexão via IP sem fio, por exemplo acessando o WebView ou página a partir de outro dispositivo na mesma rede.
-
-- Garanta que o dispositivo esteja conectado à mesma rede Wi-Fi.
-- Use o endereço IP do dispositivo para abrir a página ou console remoto.
-- Isso permite testar e injetar o script remotamente via internet local.
-
-## Servidor local de testes
-
-O projeto agora inclui um servidor local que expõe `index.html`, `main.js`, `protection.js` e `script_frida.js`.
-
-Para iniciar o servidor:
-
+## Rodando localmente
 ```bash
+# instalar dependências
+npm install
+
+# iniciar servidor (escuta em 0.0.0.0 para acesso na LAN)
 npm run serve
 ```
 
-Abra no navegador do dispositivo ou em outro aparelho na mesma rede:
+O servidor exibirá os IPs locais no terminal; abra o endereço em outro dispositivo na mesma rede (ex.: `http://192.168.1.42:8080`).
 
+## Como usar o gerador ADB (fluxo rápido)
+1. Ative as Opções de Desenvolvedor no Android e habilite “Depuração USB”.
+2. Conecte o dispositivo por USB ao computador e execute no host:
 ```bash
-http://<IP_DO_DISPOSITIVO>:8080
+adb devices
+adb tcpip 5555
+```
+3. Desconecte o cabo USB.
+4. No painel, clique em `Gerar` e depois em `Copiar` para obter o comando recomendado.
+5. Execute no host:
+```bash
+adb connect <IP_DO_SERVIDOR>:5555
+```
+6. Para desconectar:
+```bash
+adb disconnect <IP_DO_SERVIDOR>:5555
 ```
 
-A página principal já inclui o xit e botões para ativar ou desativar o aimbot.
+## Personalização para venda
+- Troque cores em `styles.css` (variáveis no topo do arquivo).
+- Atualize textos, CTAs e e‑mail de contato em `index.html` e `dashboard.js`.
+- Adicione imagens em `assets/` e referencie-as no README para material comercial.
 
-- Use `START Xit` para iniciar.
-- Use `STOP Xit` para parar.
-- Se quiser, abra o console e execute:
+## Próximos passos sugeridos
+- Gerar screenshots e PDF de apresentação.
+- Incluir script que empacote os arquivos em um ZIP pronto para entrega ao cliente.
+Quer que eu gere screenshots de demonstração e um PDF de proposta comercial agora?
 
-```js
-AndroidAimbotBridge.startAimbot()
-```
+## Material gerado (demonstrativo)
+- `assets/screenshot-1.svg` — mockup do painel
+- `assets/screenshot-2.svg` — resumo e benefícios
+- `docs/proposal.html` — proposta comercial pronta para impressão (arquivo HTML, abra e exporte como PDF)
 
-Se o navegador estiver no mesmo dispositivo onde o script roda, use `http://localhost:8080`.
+Para gerar o PDF da proposta, abra `docs/proposal.html` no navegador e use Print → Save as PDF (isso garante qualidade e tipografia controlada).

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="100%" height="100%" fill="#071827"/>
+  <rect x="60" y="60" width="1080" height="580" rx="14" fill="#081826" stroke="#ffffff" stroke-opacity="0.02"/>
+  <g transform="translate(120,120)" fill="#e6eef6" font-family="Inter, Arial, sans-serif">
+    <text x="0" y="0" font-size="28" font-weight="700">Resumo da oferta</text>
+    <text x="0" y="36" font-size="16" fill="#9aa6b2">Template responsivo pronto para entrega ao cliente.</text>
+
+    <foreignObject x="0" y="70" width="960" height="400">
+      <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Inter, Arial; color:#dff6fb">
+        <ul style="line-height:1.8;">
+          <li><strong>Design</strong>: Limpio, moderno e personalizável.</li>
+          <li><strong>Funcionalidade</strong>: Gerador de ADB, instruções e copy-to-clipboard.</li>
+          <li><strong>Entrega</strong>: Arquivos HTML/CSS/JS prontos e proposta em PDF.</li>
+        </ul>
+      </div>
+    </foreignObject>
+  </g>
+</svg>
