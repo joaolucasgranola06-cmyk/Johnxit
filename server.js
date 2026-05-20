@@ -36,38 +36,65 @@ function getContentType(filePath) {
   }
 }
 
-const server = http.createServer((req, res) => {
-  const requestedPath = req.url === '/' ? '/index.html' : req.url;
-  const safePath = path.normalize(requestedPath).replace(/^\.+/, '');
-  const filePath = path.join(publicDir, safePath);
+function createServer() {
+  return http.createServer((req, res) => {
+    if (req.url === '/ips') {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ ips: getLocalIPs() }));
+      return;
+    }
+    const requestedPath = req.url === '/' ? '/index.html' : req.url;
+    const safePath = path.normalize(requestedPath).replace(/^\.+/, '');
+    const filePath = path.join(publicDir, safePath);
 
-  if (!filePath.startsWith(publicDir)) {
-    res.writeHead(403);
-    res.end('Acesso proibido');
-    return;
-  }
-
-  fs.stat(filePath, (err, stats) => {
-    if (err || !stats.isFile()) {
-      res.writeHead(404);
-      res.end('Arquivo não encontrado');
+    if (!filePath.startsWith(publicDir)) {
+      res.writeHead(403);
+      res.end('Acesso proibido');
       return;
     }
 
-    res.writeHead(200, { 'Content-Type': getContentType(filePath) });
-    fs.createReadStream(filePath).pipe(res);
+    fs.stat(filePath, (err, stats) => {
+      if (err || !stats.isFile()) {
+        res.writeHead(404);
+        res.end('Arquivo não encontrado');
+        return;
+      }
+
+      res.writeHead(200, { 'Content-Type': getContentType(filePath) });
+      fs.createReadStream(filePath).pipe(res);
+    });
   });
-});
+}
 
-server.listen(port, host, () => {
-  const ips = getLocalIPs();
-  console.log(`Servidor iniciado em http://${host}:${port}`);
-  console.log('Acesse pelo navegador local: http://localhost:' + port);
+const preferredPort = parseInt(process.env.PORT, 10) || port;
+const maxPort = preferredPort + 10;
 
-  if (ips.length > 0) {
-    console.log('Acesse pela rede local usando o IP do dispositivo:');
-    ips.forEach(ip => console.log(`  http://${ip}:${port}`));
-  } else {
-    console.log('Nenhum IP de rede local encontrado.');
-  }
-});
+function startServer(portToTry) {
+  const server = createServer();
+
+  server.on('error', err => {
+    if (err.code === 'EADDRINUSE' && portToTry < maxPort) {
+      console.warn(`Porta ${portToTry} em uso. Tentando porta ${portToTry + 1}...`);
+      startServer(portToTry + 1);
+      return;
+    }
+
+    console.error('Erro ao iniciar o servidor:', err.message);
+    process.exit(1);
+  });
+
+  server.listen(portToTry, host, () => {
+    const ips = getLocalIPs();
+    console.log(`Servidor iniciado em http://${host}:${portToTry}`);
+    console.log('Acesse pelo navegador local: http://localhost:' + portToTry);
+
+    if (ips.length > 0) {
+      console.log('Acesse pela rede local usando o IP do dispositivo:');
+      ips.forEach(ip => console.log(`  http://${ip}:${portToTry}`));
+    } else {
+      console.log('Nenhum IP de rede local encontrado.');
+    }
+  });
+}
+
+startServer(preferredPort);

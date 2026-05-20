@@ -1,0 +1,28 @@
+:root{--bg1:#0b1220;--bg2:#071827;--card:#0f1726;--accent:#0ad3ff;--accent-2:#6ee7b7;--muted:#9aa6b2}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef6;background:linear-gradient(180deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 28px}
+.brand{font-weight:700;font-size:1.2rem;color:var(--accent)}
+.brand .dot{color:var(--accent-2);margin-left:6px}
+.nav-actions{display:flex;gap:10px}
+.btn{background:var(--accent);color:#041222;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:#cfe8f4}
+.btn.small{padding:8px 10px;font-size:0.9rem}
+.hero{display:flex;gap:22px;align-items:stretch;padding:28px;max-width:1100px;margin:10px auto}
+.hero-inner{flex:1}
+.hero h1{margin:0;font-size:2rem;line-height:1.05;color:#dffcff}
+.sub{color:var(--muted);margin-top:10px}
+.hero-cta{margin-top:18px;display:flex;gap:12px}
+.panel{width:360px}
+.panel-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.06));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.panel-card h3{margin:0 0 6px;color:var(--accent)}
+.muted{color:var(--muted)}
+.field{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;margin-top:8px}
+.row{display:flex;gap:8px;margin-top:12px}
+.cmd{background:#031426;padding:12px;border-radius:8px;margin-top:12px;color:#dff6fb;overflow:auto;border:1px solid rgba(255,255,255,0.03)}
+.panel-foot{margin-top:8px;color:var(--muted);font-size:0.9rem}
+.features{max-width:1100px;margin:18px auto;display:flex;gap:18px;padding:0 28px}
+.feature{background:rgba(255,255,255,0.02);padding:18px;border-radius:10px;flex:1;border:1px solid rgba(255,255,255,0.02)}
+.feature h4{margin:0;color:var(--accent)}
+.footer{max-width:1100px;margin:28px auto;color:var(--muted);display:flex;justify-content:space-between;padding:0 28px}
+@media(max-width:880px){.hero{flex-direction:column}.panel{width:100%}.nav{padding:12px}.features{flex-direction:column;padding:0 12px}}
