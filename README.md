@@ -17,3 +17,27 @@ O código JavaScript também pode ser executado usando uma conexão via IP sem f
 - Garanta que o dispositivo esteja conectado à mesma rede Wi-Fi.
 - Use o endereço IP do dispositivo para abrir a página ou console remoto.
 - Isso permite testar e injetar o script remotamente via internet local.
+
+## Servidor local de testes
+
+O projeto agora inclui um servidor local que expõe `index.html`, `main.js`, `protection.js` e `script_frida.js`.
+
+Para iniciar o servidor:
+
+```bash
+npm run serve
+```
+
+Abra no navegador do dispositivo ou em outro aparelho na mesma rede:
+
+```bash
+http://<IP_DO_DISPOSITIVO>:8080
+```
+
+No console do navegador, use:
+
+```js
+AndroidAimbotBridge.startAimbot()
+```
+
+Se o navegador estiver no mesmo dispositivo onde o script roda, use `http://localhost:8080`.
