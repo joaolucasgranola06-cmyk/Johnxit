@@ -1,0 +1,12 @@
+{
+  "name": "johnxit",
+  "version": "1.0.0",
+  "description": "Free Fire aimbot and protection scripts",
+  "main": "main.js",
+  "scripts": {
+    "start": "node protection.js main.js main-obfuscated.js"
+  },
+  "dependencies": {
+    "javascript-obfuscator": "^4.0.0"
+  }
+}
