@@ -1,7 +1,7 @@
 {
   "name": "johnxit",
-  "version": "1.0.0",
-  "description": "Free Fire aimbot and protection scripts",
+  "version": "3.0.0",
+  "description": "Free Fire aimbot v3 com Pixel Estendido - detecta cabeça com chapéu virtual",
   "main": "main.js",
   "scripts": {
     "start": "node protection.js main.js main-obfuscated.js",

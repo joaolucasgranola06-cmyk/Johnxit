@@ -47,9 +47,10 @@ function updateDeployState(text) {
 function safeCall(action, successMessage, errorMessage, deployText) {
   try {
     if (window.AndroidAimbotBridge && typeof window.AndroidAimbotBridge[action] === 'function') {
-      window.AndroidAimbotBridge[action]();
+      const result = window.AndroidAimbotBridge[action]();
       setStatus(successMessage, true);
       if (deployText) updateDeployState(deployText);
+      return result;
     } else {
       setStatus(errorMessage, false);
     }
@@ -122,4 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('autoFireOff').addEventListener('click', () => setOption('autoFire', false));
   document.getElementById('debugOn').addEventListener('click', () => setOption('debugMode', true));
   document.getElementById('debugOff').addEventListener('click', () => setOption('debugMode', false));
+  
+  // Pixel Estendido v3
+  const toggleExtendedButton = document.getElementById('toggleExtendedPixel');
+  if (toggleExtendedButton) {
+    toggleExtendedButton.addEventListener('click', () => {
+      const result = safeCall('toggleExtendedPixel', 'Pixel Estendido alterado', 'Erro ao alternar Pixel Estendido');
+      console.log(result);
+    });
+  }
 });

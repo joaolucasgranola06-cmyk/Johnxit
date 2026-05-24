@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Xit Painel v4 — Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="top">
+      <div class="logo">Xit<span class="dot">.</span></div>
+      <div class="subtitle">Painel v4 — Demo segura</div>
+    </header>
+
+    <section class="card">
+      <h1>Ativador</h1>
+      <p class="muted">Clique abaixo para simular a ativação do recurso.</p>
+
+      <div class="center">
+        <button id="activateBtn" class="btn activate">
+          <span id="btnIcon" class="icon">⚡</span>
+          <span id="btnText">Ativar HS Pescoço</span>
+        </button>
+        <div id="state" class="state">Inativo</div>
+      </div>
+
+      <div class="notes">
+        <strong>Aviso:</strong> Este aplicativo é apenas uma demonstração UI. Não habilita cheats nem modifica jogos.
+      </div>
+    </section>
+
+    <footer class="footer">Disponível como WebView — siga o README para empacotar em APK.</footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

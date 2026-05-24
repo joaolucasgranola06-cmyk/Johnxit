@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('startAimbot');
   const stopButton = document.getElementById('stopAimbot');
+  const toggleButton = document.getElementById('toggleExtendedPixel');
   const status = document.getElementById('bridgeStatus');
   const hostInfo = document.getElementById('hostInfo');
   const origin = window.location.origin;
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   startButton.addEventListener('click', () => {
     if (window.AndroidAimbotBridge && AndroidAimbotBridge.startAimbot) {
       AndroidAimbotBridge.startAimbot();
-      status.textContent = 'Status: Aimbot iniciado';
+      status.textContent = 'Status: ✅ Aimbot v3 iniciado (Pixel Estendido)';
       status.classList.remove('status-error');
       status.classList.add('status-ok');
     } else {
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   stopButton.addEventListener('click', () => {
     if (window.AndroidAimbotBridge && AndroidAimbotBridge.stopAimbot) {
       AndroidAimbotBridge.stopAimbot();
-      status.textContent = 'Status: Aimbot parado';
+      status.textContent = 'Status: ❌ Aimbot parado';
       status.classList.remove('status-error');
       status.classList.add('status-ok');
     } else {
@@ -44,6 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
       status.classList.add('status-error');
     }
   });
+
+  if (toggleButton) {
+    toggleButton.addEventListener('click', () => {
+      if (window.AndroidAimbotBridge && AndroidAimbotBridge.toggleExtendedPixel) {
+        const result = AndroidAimbotBridge.toggleExtendedPixel();
+        status.textContent = `Status: ${result}`;
+        status.classList.remove('status-error');
+        status.classList.add('status-ok');
+      }
+    });
+  }
 
   document.getElementById('refreshStatus').addEventListener('click', updateStatus);
 

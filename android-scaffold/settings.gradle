@@ -1,0 +1,2 @@
+rootProject.name = 'XitDemo'
+include ':app'

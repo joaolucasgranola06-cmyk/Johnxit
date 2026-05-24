@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Xit HS</string>
+    <string name="activate_hs">ATIVAR HS PESCOÇO</string>
+    <string name="status_ready">Pronto para ativar</string>
+    <string name="status_active">HS PESCOÇO ATIVADO</string>
+</resources>

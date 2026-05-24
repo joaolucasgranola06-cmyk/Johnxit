@@ -5,8 +5,8 @@ const androidAimbot = {
         // Configurações
             config: {
                         targetColor: { r: 200, g: 50, b: 50 }, // Cor da cabeça (vermelho Free Fire)
-                                tolerance: 30, // Tolerância de cor
-                                        scanArea: { x: 200, y: 300, width: 600, height: 900 }, // Área de scan modificada
+                                tolerance: 40, // Tolerância expandida para detectar pixels acima
+                                        scanArea: { x: 200, y: 20, width: 600, height: 1180 }, // Expande acima para capturar "chapéu virtual" de pixels
                                                 aimSpeed: 2.0,
                                                         fireThreshold: 0.95, // Quando atirar automaticamente
                                                                 autoFire: true,
@@ -168,11 +168,11 @@ const androidAimbot = {
                                                                                                                                                                                                                                                                                             const centerX = largestCluster.pixels.reduce((sum, p) => sum + p.x, 0) / largestCluster.pixels.length;
                                                                                                                                                                                                                                                                                                     const centerY = largestCluster.pixels.reduce((sum, p) => sum + p.y, 0) / largestCluster.pixels.length;
                                                                                                                                                                                                                                                                                                             
-                                                                                                                                                                                                                                                                                                                    return { x: Math.round(centerX), y: Math.round(centerY), confidence: largestCluster.pixels.length / 100 };
+                                                                                                                                                                                                                                                                                                                    return { x: Math.round(centerX), y: Math.round(centerY), confidence: largestCluster.pixels.length / 100, isExtendedPixel: true };
                                                                                     },
                                                                                          
                                                                                             // Agrupar pixels próximos
-                                                                                                clusterPixels(pixels, maxDistance = 20) {
+                                                                                                clusterPixels(pixels, maxDistance = 40) {
                                                                                                             const clusters = [];
                                                                                                                     
                                                                                                                             pixels.forEach(pixel => {
@@ -246,7 +246,7 @@ const androidAimbot = {
                                                                                                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                                                                                                                  
                                                                                                                                                                                                                                                                                                                                                                                                                         if (this.config.debugMode) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                console.log(`[AIM] X: ${headPos.x}, Y: ${headPos.y}, Conf: ${headPos.confidence.toFixed(2)}`);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                console.log(`[HS v3] X: ${headPos.x}, Y: ${headPos.y}, Conf: ${headPos.confidence.toFixed(2)}, ExtPixel: ${headPos.isExtendedPixel}`);
                                                                                                                                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                             } else {
@@ -328,7 +328,7 @@ const androidAimbot = {
                                                                                                                                                                                                                             if (success) {
                                                                                                                                                                                                                                                 this.isRunning = true;
                                                                                                                                                                                                                                                                 this.executeAimbot();
-                                                                                                                                                                                                                                                                                console.log('[AIMBOT] Ativo - Modo Pixel Detection');
+                                                                                                                                                                                                                                                                                console.log('[AIMBOT] ✅ Ativo - PIXEL ESTENDIDO v3 (chapéu virtual detectando)');
                                                                                                                                                                                                                             } else {
                                                                                                                                                                                                                                                 console.error('[AIMBOT] Falha na inicialização');
                                                                                                                                                                                                                             }
@@ -369,14 +369,31 @@ window.AndroidAimbotBridge = {
                                                                 return `Config ${key} = ${value}`;
                                     }
                                             return 'Config inválida';
+                        },
+                        
+                        toggleExtendedPixel: function() {
+                                    androidAimbot.config.extendedPixelMode = !androidAimbot.config.extendedPixelMode;
+                                    const status = androidAimbot.config.extendedPixelMode ? 'ATIVADO' : 'DESATIVADO';
+                                    return `Pixel Estendido ${status}`;
+                        },
+                        
+                        getStatus: function() {
+                                    return {
+                                        version: androidAimbot.config.version,
+                                        running: androidAimbot.isRunning,
+                                        extendedPixelMode: androidAimbot.config.extendedPixelMode,
+                                        headExtensionPixels: androidAimbot.config.headExtensionPixels
+                                    };
                         }
 };
 
 // Auto-inicialização após 5 segundos
 setTimeout(() => {
-        console.log('[AIMBOT] Pronto para uso');
+        console.log('✅ [AIMBOT v3] Pronto para uso - PIXEL ESTENDIDO');
+            console.log('[INFO] Detectando cabeça com pixels ACIMA (chapéu virtual)');
             console.log('[COMANDOS] AndroidAimbotBridge.startAimbot()');
                 console.log('[COMANDOS] AndroidAimbotBridge.stopAimbot()');
+                console.log('[COMANDOS] AndroidAimbotBridge.toggleExtendedPixel()');
 }, 5000);
 
 // Interface visual básica (opcional)
@@ -395,22 +412,27 @@ const createControlPanel = () => {
                                                                                         `;
                                                                                              
                                                                                                 panel.innerHTML = `
-                                                                                                        <h4 style="margin:0 0 10px 0">Free Fire Aimbot</h4>
+                                                                                                        <h4 style="margin:0 0 10px 0">🎯 Free Fire Aimbot v3</h4>
+                                                                                                                <h5 style="margin:5px 0;font-size:11px;color:#4dd7ff">👑 Pixel Estendido (Chapéu Virtual)</h5>
                                                                                                                 <button onclick="AndroidAimbotBridge.startAimbot()" style="background:#4CAF50;color:white;border:none;padding:5px 10px;margin:2px;">START</button>
                                                                                                                         <button onclick="AndroidAimbotBridge.stopAimbot()" style="background:#f44336;color:white;border:none;padding:5px 10px;margin:2px;">STOP</button>
+                                                                                                                        <button onclick="AndroidAimbotBridge.toggleExtendedPixel()" style="background:#8b5cf6;color:white;border:none;padding:5px 10px;margin:2px;font-size:11px;">Toggle HS</button>
                                                                                                                                 <div style="margin-top:10px;font-size:12px">
                                                                                                                                             Status: <span id="aimbotStatus">OFF</span>
+                                                                                                                                            <div style="font-size:10px;margin-top:5px;color:#4dd7ff">ExtPixel: <span id="extendedStatus">ON</span></div>
                                                                                                                                                     </div>
                                                                                                                                                         `;
                                                                                                                                                             
                                                                                                                                                                 document.body.appendChild(panel);
                                                                                                                                                                     
-                                                                                                                                                                        // Atualizar status
+                                                                                                                                                                                        // Atualizar status
                                                                                                                                                                             setInterval(() => {
                                                                                                                                                                                         document.getElementById('aimbotStatus').textContent = 
-                                                                                                                                                                                                    androidAimbot.isRunning ? 'ON' : 'OFF';
+                                                                                                                                                                                                    androidAimbot.isRunning ? '✅ ON' : '❌ OFF';
                                                                                                                                                                                                             document.getElementById('aimbotStatus').style.color = 
                                                                                                                                                                                                                         androidAimbot.isRunning ? '#4CAF50' : '#f44336';
+                                                                                                                                                                                            document.getElementById('extendedStatus').textContent = 
+                                                                                                                                                                                                                        androidAimbot.config.extendedPixelMode ? '✅ ON' : '❌ OFF';
                                                                                                                                                                             }, 1000);
 };
 
@@ -421,4 +443,7 @@ if (document.body) {
         document.addEventListener('DOMContentLoaded', createControlPanel);
 }
 
-console.log('✅ Free Fire Pixel Aimbot carregado para Android');
+console.log('🎯 ============================================');
+console.log('✅ Free Fire Pixel Aimbot v3 carregado!');
+console.log('👑 Modo: PIXEL ESTENDIDO (chapéu virtual de pixels)');
+console.log('🎯 ============================================');

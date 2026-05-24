@@ -7,6 +7,8 @@ const port = process.env.PORT || 8080;
 const host = '0.0.0.0';
 const publicDir = path.resolve(__dirname);
 
+// Estado simples em memória para demo (não persiste entre reinícios)
+let activated = false;
 function getLocalIPs() {
   const nets = os.networkInterfaces();
   const addresses = [];
@@ -38,6 +40,27 @@ function getContentType(filePath) {
 
 function createServer() {
   return http.createServer((req, res) => {
+    // API endpoints for demo control
+    if (req.url === '/activate' && req.method === 'POST') {
+      activated = true;
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ ok: true, activated }));
+      return;
+    }
+
+    if (req.url === '/deactivate' && req.method === 'POST') {
+      activated = false;
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ ok: true, activated }));
+      return;
+    }
+
+    if (req.url === '/state' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ activated }));
+      return;
+    }
+
     if (req.url === '/ips') {
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ ips: getLocalIPs() }));
